@@ -1,0 +1,89 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{Strippenkaart}[2024/02/05 Package om strippenkaart te maken]
+\RequirePackage{graphicx} % Required for inserting images
+\RequirePackage{tikz}
+
+\usetikzlibrary{calc}
+
+
+\newcounter{leftcounter}
+\newcounter{rightcounter}
+\newcounter{height}
+
+%\newcommand{\kruising}[3]{
+    
+    %\setcounter{rightcounter}{0}
+    
+   % \loop
+    %\ifnum \value{rightcounter} < #3
+    
+       % \addtocounter{rightcounter}{1}
+       % \draw (0,#1) -- ($({sin(180*\value{rightcounter}/(#3+1))},{cos(180*\value{rightcounter}/(#3+1))})%+(0,#1)$);
+        
+     %\repeat
+    
+    
+    %\setcounter{leftcounter}{0}
+    
+    %\loop
+    %\ifnum \value{leftcounter} < #2 
+    
+      %  \addtocounter{leftcounter}{1}
+      %  \draw (0,#1) -- ($({-sin(180*\value{leftcounter}/(#2+1))},{cos(180*\value{leftcounter}/(#2+1))})%+(0,#1)$);
+        
+   % \repeat
+
+%}
+
+\newcommand{\kruising}[2]{
+    
+    \setcounter{rightcounter}{0}
+    
+    \loop
+    \ifnum \value{rightcounter} < #2
+    
+        \addtocounter{rightcounter}{1}
+        \draw (0,\value{height}) -- ($({sin(180*\value{rightcounter}/(#2+1))},{cos(180*\value{rightcounter}/(#2+1))})+(0,\value{height})$);
+        
+     \repeat
+    
+    
+    \setcounter{leftcounter}{0}
+    
+    \loop
+    \ifnum \value{leftcounter} < #1 
+    
+        \addtocounter{leftcounter}{1}
+        \draw (0,\value{height}) -- ($({-sin(180*\value{leftcounter}/(#1+1))},{cos(180*\value{leftcounter}/(#1+1))})+(0,\value{height})$);
+        
+    \repeat
+    \addtocounter{height}{2}
+}
+
+\newenvironment{strippenkaart}[1][1]{
+
+    \begin{center}
+    \begin{tikzpicture}[scale=#1]
+    \setcounter{height}{2}
+    
+    
+
+    
+    }
+    {%\addtocounter{height}{-1}
+    \draw (0,0) -- (0,\value{height});
+    \draw[black, ultra thick] (0,\value{height}) -- ($(0.5,-0.5) + (0,\value{height})$);
+    \draw[black, ultra thick] (0,\value{height}) -- ($(-0.5,-0.5) + (0,\value{height})$);
+    \filldraw[black] (0,0) circle (5pt);
+    \filldraw[black] (0,\value{height}) circle (0.5pt);
+    
+   \end{tikzpicture}
+    \end{center}}
+
+
+
+
+
+
+
+
