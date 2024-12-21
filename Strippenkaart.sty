@@ -5,11 +5,36 @@
 
 \usetikzlibrary{calc}
 
-
+\newcounter{leftdashedcounter}
 \newcounter{leftcounter}
+\newcounter{rightdashedcounter}
 \newcounter{rightcounter}
 \newcounter{height}
 
+%\newcommand{\kruising}[3]{
+    
+    %\setcounter{rightcounter}{0}
+    
+   % \loop
+    %\ifnum \value{rightcounter} < #3
+    
+       % \addtocounter{rightcounter}{1}
+       % \draw (0,#1) -- ($({sin(180*\value{rightcounter}/(#3+1))},{cos(180*\value{rightcounter}/(#3+1))})%+(0,#1)$);
+        
+     %\repeat
+    
+    
+    %\setcounter{leftcounter}{0}
+    
+    %\loop
+    %\ifnum \value{leftcounter} < #2 
+    
+      %  \addtocounter{leftcounter}{1}
+      %  \draw (0,#1) -- ($({-sin(180*\value{leftcounter}/(#2+1))},{cos(180*\value{leftcounter}/(#2+1))})%+(0,#1)$);
+        
+   % \repeat
+
+%}
 
 \newcommand{\kruising}[2]{
     
@@ -35,6 +60,39 @@
     \repeat
     \addtocounter{height}{2}
 }
+%use as \kruisingstippel{lines on left}{lines on right}{dashed lines on left}{dashed lines on right}
+\newcommand{\kruisingstippel}[4]{
+
+    \setcounter{rightdashedcounter}{0}
+    \setcounter{rightcounter}{0}
+    
+    \loop
+    \ifnum \value{rightcounter} < #2
+        \addtocounter{rightcounter}{1}
+        
+        \ifnum \value{rightdashedcounter} < #4
+            \addtocounter{rightdashedcounter}{1}        
+            \draw[dashed] (0,\value{height}) -- ($({sin(180*\value{rightcounter}/(#2+1))},{cos(180*\value{rightcounter}/(#2+1))})+(0,\value{height})$);
+        \else
+            \draw (0,\value{height}) -- ($({sin(180*\value{rightcounter}/(#2+1))},{cos(180*\value{rightcounter}/(#2+1))})+(0,\value{height})$)
+     \repeat
+    
+    \setcounter{leftdashedcounter}{0}    
+    \setcounter{leftcounter}{0}
+    
+    \loop
+    \ifnum \value{leftcounter} < #1 
+    
+        \addtocounter{leftcounter}{1}
+        \ifnum \value{leftdashedcounter} <#3
+            \addtocounter{leftdashedcounter}{1}
+            \draw[dashed] (0,\value{height}) -- ($({-sin(180*\value{leftcounter}/(#1+1))},{cos(180*\value{leftcounter}/(#1+1))})+(0,\value{height})$);
+        \else 
+            \draw (0,\value{height}) -- ($({-sin(180*\value{leftcounter}/(#1+1))},{cos(180*\value{leftcounter}/(#1+1))})+(0,\value{height})$);
+    \repeat
+    \addtocounter{height}{2}
+}
+
 
 \newenvironment{strippenkaart}[1][1]{
 
